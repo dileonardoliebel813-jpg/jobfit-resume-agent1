@@ -10,7 +10,7 @@ GitHub Pages can host only static files, so it cannot run the FastAPI backend or
 ## Recommended Setup: Render
 
 1. Push this repo to GitHub.
-2. Open Render and create a new Blueprint from this repository.
+2. Open [Deploy to Render](https://render.com/deploy?repo=https://github.com/dileonardoliebel813-jpg/jobfit-resume-agent1) or create a new Blueprint from this repository.
 3. Render will read `render.yaml` and create one web service:
    - `jobfit-resume-agent`
 4. Set the required secret environment variable:

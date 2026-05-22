@@ -1,5 +1,7 @@
 # JobFit Resume Agent
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/dileonardoliebel813-jpg/jobfit-resume-agent1)
+
 JobFit Resume Agent generates role-fit resume JSON from a job description and a candidate profile. The project currently uses a modular FastAPI agent backend and a React/Vite/Tailwind workspace UI. In real mode, model-backed agents call an OpenAI-compatible Responses API through a single backend LLM client; the frontend never calls the model directly.
 
 ## Project Structure
@@ -191,7 +193,7 @@ This repository includes a root `Dockerfile` and `render.yaml` for a real one-UR
 - FastAPI serves both the API and the built frontend.
 - The model API key is stored only in the cloud service environment variables.
 
-On Render, create a Blueprint from this GitHub repository and set:
+On Render, click the Deploy button above or create a Blueprint from this GitHub repository, then set:
 
 ```env
 OPENAI_API_KEY=your_real_provider_key
