@@ -14,6 +14,8 @@ export default {
       },
       boxShadow: {
         panel: "0 18px 55px rgba(24, 33, 47, 0.08)",
+        card: "0 22px 70px rgba(15, 23, 42, 0.08)",
+        floating: "0 24px 80px rgba(15, 23, 42, 0.16)",
       },
     },
   },

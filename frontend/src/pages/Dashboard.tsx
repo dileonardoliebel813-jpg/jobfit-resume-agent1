@@ -123,6 +123,11 @@ const steps: Array<{ step: WizardStep; title: string; hint: string }> = [
   { step: 5, title: "简历导出", hint: "预览和 PDF" },
 ];
 
+const panelClass = "rounded-[28px] border border-white/70 bg-white/90 p-6 shadow-card backdrop-blur";
+const fieldClass = "mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-800 shadow-inner shadow-slate-200/40 outline-none transition placeholder:text-slate-400 focus:border-action focus:ring-4 focus:ring-teal-100";
+const sectionIconClass = "flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-50 to-cyan-50 text-action ring-1 ring-teal-100";
+const statusDotClass = "h-2.5 w-2.5 rounded-full";
+
 function splitList(value: string): string[] {
   return value
     .split(/[\n,，;；、/]+/)
@@ -247,24 +252,28 @@ function StepButton({
     <button
       type="button"
       onClick={onClick}
-      className={`flex w-full items-center gap-3 rounded-2xl border px-3 py-3 text-left transition ${
+      className={`group flex w-full items-center gap-3 rounded-3xl border px-4 py-4 text-left transition duration-200 ${
         active
-          ? "border-action bg-teal-50 text-slate-950"
+          ? "border-teal-200 bg-gradient-to-br from-white to-teal-50 text-slate-950 shadow-md shadow-teal-900/5"
           : completed
-            ? "border-teal-100 bg-white text-slate-800"
-            : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
+            ? "border-teal-100 bg-white/90 text-slate-800 hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-sm"
+            : "border-slate-200/80 bg-white/70 text-slate-500 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:text-slate-800 hover:shadow-sm"
       }`}
     >
       <span
-        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-          completed ? "bg-action text-white" : active ? "bg-white text-action" : "bg-slate-100"
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-sm font-black transition ${
+          completed
+            ? "bg-action text-white shadow-lg shadow-teal-700/20"
+            : active
+              ? "bg-slate-950 text-white shadow-lg shadow-slate-950/15"
+              : "bg-slate-100 text-slate-500 group-hover:bg-teal-50 group-hover:text-action"
         }`}
       >
         {completed ? <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> : step.step}
       </span>
       <span className="min-w-0">
-        <span className="block text-sm font-bold">{step.title}</span>
-        <span className="mt-0.5 block truncate text-xs opacity-70">{step.hint}</span>
+        <span className="block text-sm font-black tracking-tight">{step.title}</span>
+        <span className="mt-1 block truncate text-xs font-medium opacity-70">{step.hint}</span>
       </span>
     </button>
   );
@@ -285,13 +294,13 @@ function TextAreaField({
 }) {
   return (
     <label className="block">
-      <span className="text-sm font-bold text-slate-900">{label}</span>
+      <span className="text-sm font-black tracking-tight text-slate-900">{label}</span>
       <textarea
         value={value}
         onChange={(event) => onChange(event.target.value)}
         rows={rows}
         placeholder={placeholder}
-        className="mt-2 w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-800 outline-none transition focus:border-action focus:bg-white focus:ring-4 focus:ring-teal-50"
+        className={`${fieldClass} resize-none py-3 leading-6`}
       />
     </label>
   );
@@ -310,12 +319,12 @@ function ContactInput({
 }) {
   return (
     <label className="block">
-      <span className="text-sm font-bold text-slate-900">{label}</span>
+      <span className="text-sm font-black tracking-tight text-slate-900">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="mt-2 h-11 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-action focus:bg-white focus:ring-4 focus:ring-teal-50"
+        className={`${fieldClass} h-12`}
       />
     </label>
   );
@@ -335,7 +344,7 @@ function PrimaryButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-action px-5 text-sm font-bold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+      className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-action to-cyan-500 px-5 text-sm font-black text-white shadow-lg shadow-teal-700/20 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-teal-700/25 focus:outline-none focus:ring-4 focus:ring-teal-100 disabled:cursor-not-allowed disabled:from-slate-300 disabled:to-slate-300 disabled:shadow-none disabled:hover:translate-y-0"
     >
       {children}
     </button>
@@ -356,7 +365,7 @@ function SecondaryButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 text-sm font-bold text-slate-700 transition hover:border-action hover:text-action disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+      className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 text-sm font-black text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-action hover:bg-teal-50 hover:text-action focus:outline-none focus:ring-4 focus:ring-teal-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none disabled:hover:translate-y-0"
     >
       {children}
     </button>
@@ -371,14 +380,17 @@ function LowMatchModal({
   onContinue: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 backdrop-blur-md">
+      <div className="w-full max-w-lg rounded-[32px] border border-white/70 bg-white p-7 shadow-floating">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-700">
-              <AlertTriangle className="h-5 w-5" aria-hidden="true" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-700 ring-1 ring-amber-100">
+              <AlertTriangle className="h-6 w-6" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-slate-950">当前信息与岗位匹配度不高</h3>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-amber-600">匹配提醒</p>
+              <h3 className="mt-1 text-xl font-black tracking-tight text-slate-950">当前信息与岗位匹配度不高</h3>
+            </div>
           </div>
           <button
             type="button"
@@ -388,7 +400,7 @@ function LowMatchModal({
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
-        <p className="mt-4 text-sm leading-7 text-slate-700">
+        <p className="mt-5 rounded-2xl bg-amber-50 px-4 py-3 text-sm leading-7 text-amber-900">
           建议继续补充与岗位相关的真实项目、课程、竞赛或实践经历。你也可以继续生成简历，系统只会使用已提供的真实信息。
         </p>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -647,7 +659,7 @@ export default function Dashboard() {
 
   function renderHistoryView() {
     return (
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className={panelClass}>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-sm font-bold text-action">历史简历</p>
@@ -713,9 +725,9 @@ export default function Dashboard() {
 
     if (activeStep === 1) {
       return (
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className={panelClass}>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-50 text-action">
+            <div className={sectionIconClass}>
               <FileText className="h-5 w-5" aria-hidden="true" />
             </div>
             <div>
@@ -723,9 +735,17 @@ export default function Dashboard() {
               <h2 className="text-2xl font-bold text-slate-950">粘贴岗位 JD</h2>
             </div>
           </div>
-          <p className="mt-4 text-sm leading-6 text-slate-600">
-            把岗位职责、任职要求、加分项一起粘贴进来。分析完成后，系统会自动进入个人信息填写。
-          </p>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {[
+              "岗位职责、任职要求一起粘贴",
+              "加分项和工具要求越完整越好",
+              "分析后自动提取目标岗位画像",
+            ].map((tip) => (
+              <div key={tip} className="rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-3 text-xs font-bold leading-5 text-teal-800">
+                {tip}
+              </div>
+            ))}
+          </div>
           <textarea
             value={rawJD}
             onChange={(event) => {
@@ -734,7 +754,7 @@ export default function Dashboard() {
             }}
             rows={16}
             placeholder="在这里粘贴岗位 JD 原文"
-            className="mt-5 w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-800 outline-none transition focus:border-action focus:bg-white focus:ring-4 focus:ring-teal-50"
+            className={`${fieldClass} min-h-[25rem] resize-none py-3 leading-6`}
           />
           <div className="mt-5 flex flex-wrap gap-3">
             <PrimaryButton onClick={handleAnalyzeJD} disabled={Boolean(loading)}>
@@ -749,9 +769,9 @@ export default function Dashboard() {
 
     if (activeStep === 2) {
       return (
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className={panelClass}>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-50 text-action">
+            <div className={sectionIconClass}>
               <UserRound className="h-5 w-5" aria-hidden="true" />
             </div>
             <div>
@@ -790,9 +810,9 @@ export default function Dashboard() {
 
     if (activeStep === 3) {
       return (
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className={panelClass}>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-50 text-action">
+            <div className={sectionIconClass}>
               <ClipboardList className="h-5 w-5" aria-hidden="true" />
             </div>
             <div>
@@ -800,7 +820,7 @@ export default function Dashboard() {
               <h2 className="text-2xl font-bold text-slate-950">填写真实经历</h2>
             </div>
           </div>
-          <div className="mt-4 rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
+          <div className="mt-4 rounded-2xl border border-amber-100 bg-gradient-to-r from-amber-50 to-orange-50 px-4 py-3 text-sm font-medium leading-6 text-amber-900">
             写你真实做过的内容即可。不完整也能继续生成，缺的信息不会被编造成事实。
           </div>
           <div className="mt-5 grid gap-5 lg:grid-cols-2">
@@ -852,9 +872,9 @@ export default function Dashboard() {
       const lowMatch = isLowMatch(diagnosis);
       const completionSuggestions = buildCompletionSuggestions(diagnosis);
       return (
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className={panelClass}>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-50 text-action">
+            <div className={sectionIconClass}>
               <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
             </div>
             <div>
@@ -864,34 +884,46 @@ export default function Dashboard() {
           </div>
 
           {diagnosis ? (
-            <div className={`mt-5 rounded-3xl border p-5 ${lowMatch ? "border-amber-200 bg-amber-50" : "border-teal-100 bg-teal-50"}`}>
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <p className="text-sm font-bold text-slate-700">岗位匹配覆盖率</p>
-                  <p className="mt-2 text-4xl font-bold text-slate-950">
+            <div className="mt-5 rounded-3xl border border-teal-100 bg-gradient-to-br from-teal-50 via-white to-cyan-50 p-5">
+              <div className="grid gap-5 lg:grid-cols-[180px_1fr]">
+                <div className="rounded-3xl bg-white/85 p-5 text-center shadow-sm">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-action">覆盖率</p>
+                  <p className="mt-3 text-5xl font-black tracking-tight text-slate-950">
                     {Math.round(diagnosis.coverage_score * 100)}%
                   </p>
+                  <div className="mt-4 h-2 rounded-full bg-slate-200">
+                    <div
+                      className={`h-full rounded-full ${lowMatch ? "bg-amber-500" : "bg-action"}`}
+                      style={{ width: `${Math.round(diagnosis.coverage_score * 100)}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="max-w-lg text-sm leading-6 text-slate-700">
-                  {lowMatch
-                    ? "当前信息和岗位匹配度偏低。你可以返回补充内容，也可以继续生成，系统只会使用你已经提供的真实信息。"
-                    : "当前信息可以继续生成正式简历。系统会优先使用有证据支持的经历。"}
+                <div className="flex flex-col justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-black text-slate-900">
+                      {lowMatch ? "建议先补充真实证据" : "可以继续生成正式简历"}
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-slate-700">
+                      {lowMatch
+                        ? "当前信息和岗位匹配度偏低。你可以返回补充内容，也可以继续生成，系统只会使用你已经提供的真实信息。"
+                        : "当前信息可以继续生成正式简历。系统会优先使用有证据支持的经历。"}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-3 rounded-2xl bg-white/85 p-3 shadow-sm">
+                    <SecondaryButton onClick={() => setActiveStep(3)}>
+                      <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                      返回补充信息
+                    </SecondaryButton>
+                    <PrimaryButton onClick={() => void handleGenerateResume(false)} disabled={Boolean(loading)}>
+                      生成简历
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </PrimaryButton>
+                  </div>
                 </div>
-              </div>
-
-              <div className="mt-5 flex flex-wrap gap-3 rounded-2xl bg-white/70 p-3">
-                <SecondaryButton onClick={() => setActiveStep(3)}>
-                  <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                  返回补充信息
-                </SecondaryButton>
-                <PrimaryButton onClick={() => void handleGenerateResume(false)} disabled={Boolean(loading)}>
-                  生成简历
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </PrimaryButton>
               </div>
 
               {diagnosis.missing_evidence_questions.length > 0 && (
-                <div className="mt-5 rounded-2xl bg-white/70 p-4">
+                <div className="mt-5 rounded-2xl bg-white/80 p-4 shadow-sm">
                   <p className="text-sm font-bold text-slate-900">如果想提升匹配度，可以补充这些信息</p>
                   <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
                     {diagnosis.missing_evidence_questions.slice(0, 5).map((item) => (
@@ -902,7 +934,7 @@ export default function Dashboard() {
               )}
 
               {completionSuggestions.length > 0 && (
-                <div className="mt-5 rounded-2xl border border-blue-100 bg-white p-4">
+                <div className="mt-5 rounded-2xl border border-blue-100 bg-white/90 p-4 shadow-sm">
                   <p className="text-sm font-bold text-slate-900">补全助手</p>
                   <p className="mt-1 text-sm leading-6 text-slate-600">
                     这些不是自动编造经历，只是帮你把可以补充的方向放回表单。请改成你真实做过的内容。
@@ -911,14 +943,14 @@ export default function Dashboard() {
                     {completionSuggestions.map((suggestion) => (
                       <article
                         key={`${suggestion.target}-${suggestion.title}`}
-                        className="rounded-2xl border border-slate-200 bg-slate-50 p-3"
+                        className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-md"
                       >
                         <p className="text-sm font-bold text-slate-950">{suggestion.title}</p>
                         <p className="mt-1 text-xs leading-5 text-slate-600">{suggestion.detail}</p>
                         <button
                           type="button"
                           onClick={() => appendCompletionSuggestion(suggestion)}
-                          className="mt-3 h-9 rounded-xl bg-slate-950 px-3 text-xs font-bold text-white transition hover:bg-slate-700"
+                          className="mt-3 h-9 rounded-xl bg-slate-950 px-3 text-xs font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-action"
                         >
                           加到{suggestion.target === "skills" ? "专业技能" : suggestion.target === "campus" ? "校园/竞赛" : "项目经历"}
                         </button>
@@ -952,7 +984,7 @@ export default function Dashboard() {
     }
 
     return (
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className={panelClass}>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-sm font-bold text-action">第 5 步</p>
@@ -969,15 +1001,32 @@ export default function Dashboard() {
         {resumeResult ? (
           <div className="mt-5">
             <ResumePreview resume={resumeResult.resume_json} contactInfo={contactInfo} />
-            <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">
-              {atsReview && <p>ATS 分数：{atsReview.score}，关键词覆盖率：{Math.round(atsReview.keyword_coverage * 100)}%。</p>}
-              {factCheck && <p>事实校验风险：{factCheck.risk_level}。{factCheck.summary}</p>}
-              {reviewError && <p className="text-amber-700">校验暂时失败：{reviewError}。已生成的简历不会被覆盖。</p>}
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              {atsReview && (
+                <div className="rounded-2xl border border-teal-100 bg-teal-50/80 px-4 py-3 text-sm leading-6 text-teal-900">
+                  <p className="font-black">ATS 分数：{atsReview.score}</p>
+                  <p className="text-xs font-medium">关键词覆盖率：{Math.round(atsReview.keyword_coverage * 100)}%</p>
+                </div>
+              )}
+              {factCheck && (
+                <div className="rounded-2xl border border-blue-100 bg-blue-50/80 px-4 py-3 text-sm leading-6 text-blue-900">
+                  <p className="font-black">事实校验风险：{factCheck.risk_level}</p>
+                  <p className="text-xs font-medium">{factCheck.summary}</p>
+                </div>
+              )}
+              {reviewError && (
+                <div className="rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm font-medium leading-6 text-amber-800 md:col-span-2">
+                  校验暂时失败：{reviewError}。已生成的简历不会被覆盖。
+                </div>
+              )}
             </div>
           </div>
         ) : (
-          <div className="mt-5 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
-            <p className="text-sm leading-6 text-slate-600">还没有生成简历，请返回第 4 步点击“生成简历”。</p>
+          <div className="mt-5 rounded-3xl border border-dashed border-slate-300 bg-white/70 p-8 text-center shadow-inner">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+              <FileText className="h-6 w-6" aria-hidden="true" />
+            </div>
+            <p className="mt-3 text-sm font-bold leading-6 text-slate-600">还没有生成简历，请返回第 4 步点击“生成简历”。</p>
             <div className="mt-4">
               <PrimaryButton onClick={() => void handleGenerateResume(false)} disabled={Boolean(loading)}>
                 生成简历
@@ -1005,73 +1054,99 @@ export default function Dashboard() {
         />
       )}
 
-      <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <section className="overflow-hidden rounded-[32px] border border-white/70 bg-gradient-to-br from-white via-teal-50/70 to-cyan-50/80 p-6 shadow-card">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-sm font-bold text-action">
+            <div className="inline-flex items-center gap-2 rounded-full border border-teal-100 bg-white/80 px-3 py-1 text-sm font-black text-action shadow-sm">
               <Sparkles className="h-4 w-4" aria-hidden="true" />
               JobFit Resume Agent
             </div>
-            <h1 className="mt-4 text-3xl font-bold tracking-normal text-slate-950">
+            <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-950">
               5 步生成正式 PDF 简历
             </h1>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+            <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-600">
               跟着步骤填写即可。信息不完整也能生成，系统不会编造你没有提供的硬事实。
             </p>
           </div>
-          {loading && (
-            <div className="inline-flex items-center gap-2 rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-bold text-blue-800">
-              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-              {loading}
+          <div className="flex flex-col gap-3">
+            {loading && (
+              <div className="inline-flex items-center gap-2 rounded-2xl border border-blue-100 bg-white/90 px-4 py-3 text-sm font-black text-blue-800 shadow-sm">
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                {loading}
+              </div>
+            )}
+            <div className="grid grid-cols-3 gap-2 text-xs font-black text-slate-600">
+              <span className="rounded-2xl bg-white/80 px-3 py-2 text-center shadow-sm">JD {jdProfile ? "已分析" : "待分析"}</span>
+              <span className="rounded-2xl bg-white/80 px-3 py-2 text-center shadow-sm">匹配 {diagnosis ? `${Math.round(diagnosis.coverage_score * 100)}%` : "待诊断"}</span>
+              <span className="rounded-2xl bg-white/80 px-3 py-2 text-center shadow-sm">简历 {resumeResult ? "已生成" : "未生成"}</span>
             </div>
-          )}
+          </div>
         </div>
       </section>
 
-      <section className="mt-5 grid gap-5 lg:grid-cols-[280px_1fr]">
-        <aside className="space-y-3">
-          {steps.map((step) => (
-            <StepButton
-              key={step.step}
-              step={step}
-              activeStep={activeStep}
-              completed={completedSteps[step.step]}
-              onClick={() => setActiveStep(step.step)}
-            />
-          ))}
+      <section className="mt-6 grid gap-6 lg:grid-cols-[300px_1fr]">
+        <aside className="space-y-4 lg:sticky lg:top-28 lg:self-start">
+          <div className="rounded-[28px] border border-white/70 bg-white/75 p-3 shadow-card backdrop-blur">
+            <div className="space-y-3">
+              {steps.map((step) => (
+                <StepButton
+                  key={step.step}
+                  step={step}
+                  activeStep={activeStep}
+                  completed={completedSteps[step.step]}
+                  onClick={() => setActiveStep(step.step)}
+                />
+              ))}
+            </div>
+          </div>
 
           <button
             type="button"
             onClick={() => setSideView("history")}
-            className={`flex w-full items-center gap-3 rounded-2xl border px-3 py-3 text-left transition ${
+            className={`group flex w-full items-center gap-3 rounded-3xl border px-4 py-4 text-left transition ${
               sideView === "history"
-                ? "border-action bg-teal-50 text-slate-950"
-                : "border-slate-200 bg-white text-slate-700 hover:border-action hover:text-action"
+                ? "border-teal-200 bg-teal-50 text-slate-950 shadow-sm"
+                : "border-slate-200/80 bg-white/80 text-slate-700 hover:-translate-y-0.5 hover:border-action hover:text-action hover:shadow-sm"
             }`}
           >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 group-hover:bg-teal-50 group-hover:text-action">
               <History className="h-4 w-4" aria-hidden="true" />
             </span>
             <span className="min-w-0">
-              <span className="block text-sm font-bold">历史简历</span>
-              <span className="mt-0.5 block truncate text-xs opacity-70">
+              <span className="block text-sm font-black">历史简历</span>
+              <span className="mt-1 block truncate text-xs font-medium opacity-70">
                 {resumeHistory.length ? `${resumeHistory.length} 份已保存` : "查看以前生成的简历"}
               </span>
             </span>
           </button>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-5 text-sm leading-6 text-slate-600 shadow-sm">
-            <p className="font-bold text-slate-950">当前状态</p>
-            <ul className="mt-3 space-y-2">
-              <li>• JD：{jdProfile ? "已分析" : "未分析"}</li>
-              <li>• 匹配：{diagnosis ? `${Math.round(diagnosis.coverage_score * 100)}%` : "待诊断"}</li>
-              <li>• 简历：{resumeResult ? "已生成" : "未生成"}</li>
-            </ul>
+          <div className="rounded-3xl border border-white/70 bg-white/85 p-5 text-sm leading-6 text-slate-600 shadow-card backdrop-blur">
+            <p className="font-black text-slate-950">当前状态</p>
+            <div className="mt-4 space-y-3">
+              {[
+                { label: "JD", value: jdProfile ? "已分析" : "未分析", done: Boolean(jdProfile) },
+                { label: "匹配", value: diagnosis ? `${Math.round(diagnosis.coverage_score * 100)}%` : "待诊断", done: Boolean(diagnosis) },
+                { label: "简历", value: resumeResult ? "已生成" : "未生成", done: Boolean(resumeResult) },
+              ].map(({ label, value, done }) => (
+                <div key={String(label)} className="flex items-center justify-between rounded-2xl bg-slate-50 px-3 py-2">
+                  <span className="flex items-center gap-2 font-bold text-slate-700">
+                    <span className={`${statusDotClass} ${done ? "bg-action" : "bg-slate-300"}`} />
+                    {label}
+                  </span>
+                  <span className="font-black text-slate-950">{value}</span>
+                </div>
+              ))}
+            </div>
+            {diagnosis && (
+              <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-200">
+                <div className="h-full rounded-full bg-action" style={{ width: `${Math.round(diagnosis.coverage_score * 100)}%` }} />
+              </div>
+            )}
             {jdProfile && (
-              <div className="mt-4 rounded-2xl bg-slate-50 p-3">
-                <p className="text-xs font-bold text-slate-500">岗位</p>
-                <p className="mt-1 font-bold text-slate-900">{jdProfile.position}</p>
-                <p className="mt-1 text-xs text-slate-500">{jdProfile.job_level} · {jdProfile.job_type}</p>
+              <div className="mt-4 rounded-2xl border border-teal-100 bg-teal-50/80 p-3">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-action">岗位</p>
+                <p className="mt-1 font-black text-slate-900">{jdProfile.position}</p>
+                <p className="mt-1 text-xs font-medium text-slate-500">{jdProfile.job_level} · {jdProfile.job_type}</p>
               </div>
             )}
           </div>
@@ -1079,7 +1154,8 @@ export default function Dashboard() {
 
         <div>
           {error && (
-            <div className="mb-4 rounded-2xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-700">
+            <div className="mb-4 flex gap-3 rounded-2xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm font-medium leading-6 text-rose-700 shadow-sm">
+              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
               {error}
             </div>
           )}

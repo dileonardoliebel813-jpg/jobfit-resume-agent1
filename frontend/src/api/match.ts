@@ -1,7 +1,9 @@
 import type { JDProfile, MatchDiagnoseResult, UserProfile } from "../types";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-const expectedBackendUrl = apiBaseUrl || "http://127.0.0.1:8010";
+const apiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL ||
+  (typeof window !== "undefined" ? window.location.origin : "http://127.0.0.1:8010");
+const expectedBackendUrl = apiBaseUrl;
 
 export class MatchAPIError extends Error {
   constructor(message: string) {
@@ -28,10 +30,6 @@ export async function diagnoseMatch(
   rawProfileText: string,
   userConfirmedAbsentRequirements: string[],
 ): Promise<MatchDiagnoseResult> {
-  if (!apiBaseUrl) {
-    throw new MatchAPIError("请先配置 VITE_API_BASE_URL");
-  }
-
   try {
     const response = await fetch(`${apiBaseUrl}/api/v1/match/diagnose`, {
       method: "POST",

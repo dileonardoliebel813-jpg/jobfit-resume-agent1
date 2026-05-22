@@ -1,7 +1,9 @@
 import type { UserProfile } from "../types";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-const expectedBackendUrl = apiBaseUrl || "http://127.0.0.1:8010";
+const apiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL ||
+  (typeof window !== "undefined" ? window.location.origin : "http://127.0.0.1:8010");
+const expectedBackendUrl = apiBaseUrl;
 
 export class ProfileAPIError extends Error {
   constructor(message: string) {
@@ -23,10 +25,6 @@ async function readErrorMessage(response: Response): Promise<string> {
 }
 
 export async function parseProfile(profileText: string): Promise<UserProfile> {
-  if (!apiBaseUrl) {
-    throw new ProfileAPIError("请先配置 VITE_API_BASE_URL");
-  }
-
   try {
     const response = await fetch(`${apiBaseUrl}/api/v1/profile/parse`, {
       method: "POST",

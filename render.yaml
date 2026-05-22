@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: jobfit-resume-agent
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: LLM_MODE
+        value: real
+      - key: LLM_PROVIDER
+        value: openai
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_BASE_URL
+        value: https://mx.free.codesonline.dev
+      - key: OPENAI_MODEL
+        value: gpt-5.4
+      - key: OPENAI_REVIEW_MODEL
+        value: gpt-5.4
+      - key: OPENAI_WIRE_API
+        value: responses
+      - key: MODEL_REASONING_EFFORT
+        value: xhigh
+      - key: JD_REASONING_EFFORT
+        value: medium
+      - key: PROFILE_REASONING_EFFORT
+        value: medium
+      - key: RESUME_REASONING_EFFORT
+        value: xhigh
+      - key: REVIEW_REASONING_EFFORT
+        value: xhigh
+      - key: DISABLE_RESPONSE_STORAGE
+        value: true
+      - key: LLM_TIMEOUT_SECONDS
+        value: 180
+      - key: LLM_MAX_RETRIES
+        value: 0
+      - key: BACKEND_CORS_ORIGINS
+        value: ""

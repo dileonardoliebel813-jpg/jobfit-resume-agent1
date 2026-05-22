@@ -175,10 +175,11 @@ function formatCampus(modules: ResumeModule[], education: string[], resumeText: 
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="mt-5">
+    <section className="mt-6">
       <div className="flex items-center gap-3">
-        <h3 className="shrink-0 text-[15px] font-bold text-slate-950">{title}</h3>
-        <div className="h-px flex-1 bg-slate-300" />
+        <span className="h-5 w-1.5 rounded-full bg-action" />
+        <h3 className="shrink-0 text-[15px] font-black tracking-tight text-slate-950">{title}</h3>
+        <div className="h-px flex-1 bg-gradient-to-r from-slate-300 to-transparent" />
       </div>
       <div className="mt-3">{children}</div>
     </section>
@@ -190,10 +191,11 @@ function BulletList({ items }: { items: string[] }) {
     return null;
   }
   return (
-    <ul className="space-y-1.5 pl-4 text-[13px] leading-5 text-slate-800">
+    <ul className="space-y-2 text-[13px] leading-6 text-slate-800">
       {items.map((item) => (
-        <li key={item} className="list-disc">
-          {item}
+        <li key={item} className="flex gap-2">
+          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-action" />
+          <span>{item}</span>
         </li>
       ))}
     </ul>
@@ -202,9 +204,9 @@ function BulletList({ items }: { items: string[] }) {
 
 function ContactLine({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between gap-4 text-xs leading-5 text-slate-700">
-      <span className="font-medium text-slate-500">{label}</span>
-      <span className="max-w-[190px] truncate text-right">{value || "可填写"}</span>
+    <div className="flex justify-between gap-4 text-xs leading-5 text-white/85">
+      <span className="font-bold text-white/55">{label}</span>
+      <span className="max-w-[190px] truncate text-right font-semibold">{value || "可填写"}</span>
     </div>
   );
 }
@@ -223,86 +225,90 @@ export default function ResumePreview({ resume, contactInfo }: ResumePreviewProp
   );
 
   return (
-    <section className="h-full rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-        <div className="flex h-12 items-center bg-slate-950 px-6 text-lg font-bold tracking-[0.16em] text-white">
-          个人简历
-        </div>
-        <div className="grid gap-5 p-5 md:grid-cols-[96px_1fr_240px] md:items-center">
-          <div className="flex h-32 w-24 items-center justify-center rounded-xl bg-gradient-to-b from-sky-200 to-sky-600 text-xs font-semibold text-white">
-            照片占位
-          </div>
-          <div>
-            <h2 className="text-3xl font-bold tracking-normal text-slate-950">{name}</h2>
-            <p className="mt-3 text-base font-semibold text-slate-800">求职意向：{target}</p>
-          </div>
-          <div className="space-y-1.5 rounded-xl bg-slate-50 p-3">
-            <ContactLine label="年龄" value={cleanText(contactInfo?.age)} />
-            <ContactLine label="电话" value={cleanText(contactInfo?.phone)} />
-            <ContactLine label="邮箱" value={cleanText(contactInfo?.email)} />
-            <ContactLine label="所在地" value={cleanText(contactInfo?.location)} />
-            <ContactLine label="GitHub" value={cleanText(contactInfo?.github)} />
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-5 max-h-[860px] overflow-y-auto rounded-2xl border border-slate-100 bg-white px-5 pb-5">
-        {education.length > 0 && (
-          <Section title="教育背景">
-            <div className="space-y-1 text-[13px] leading-5 text-slate-800">
-              {education.map((item) => (
-                <p key={item}>{item}</p>
-              ))}
+    <section className="h-full rounded-[32px] border border-slate-200/80 bg-gradient-to-br from-slate-100 via-white to-teal-50/60 p-5 shadow-card">
+      <div className="mx-auto max-w-4xl overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-floating">
+        <div className="bg-slate-950 px-7 py-6 text-white">
+          <div className="grid gap-5 md:grid-cols-[96px_1fr_260px] md:items-center">
+            <div className="flex h-32 w-24 items-center justify-center rounded-2xl border border-white/20 bg-white/10 text-xs font-bold text-white/80 shadow-inner">
+              照片占位
             </div>
-          </Section>
-        )}
-
-        <Section title="个人优势">
-          <BulletList items={summary} />
-        </Section>
-
-        {skills.length > 0 && (
-          <Section title="专业技能">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-[13px] leading-5 text-slate-800 md:grid-cols-4">
-              {skills.map((skill) => (
-                <span key={skill}>• {skill}</span>
-              ))}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-teal-200">Resume</p>
+              <h2 className="mt-3 text-4xl font-black tracking-tight text-white">{name}</h2>
+              <p className="mt-3 inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-teal-100">
+                求职意向：{target}
+              </p>
             </div>
-          </Section>
-        )}
+            <div className="space-y-1.5 rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur">
+              <ContactLine label="年龄" value={cleanText(contactInfo?.age)} />
+              <ContactLine label="电话" value={cleanText(contactInfo?.phone)} />
+              <ContactLine label="邮箱" value={cleanText(contactInfo?.email)} />
+              <ContactLine label="所在地" value={cleanText(contactInfo?.location)} />
+              <ContactLine label="GitHub" value={cleanText(contactInfo?.github)} />
+            </div>
+          </div>
+        </div>
 
-        {projects.length > 0 && (
-          <Section title="项目经历">
-            {projects.map((project) => (
-              <article key={project.title} className="space-y-2">
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h4 className="text-[14px] font-bold text-slate-950">{project.title}</h4>
-                  <span className="text-[13px] font-semibold text-slate-700">{project.role}</span>
-                </div>
-                {project.intro && (
-                  <p className="text-[13px] leading-5 text-slate-800">
-                    <span className="font-semibold">项目简介：</span>
-                    {project.intro}
-                  </p>
-                )}
-                {project.techStack && (
-                  <p className="text-[13px] leading-5 text-slate-800">
-                    <span className="font-semibold">技术栈：</span>
-                    {project.techStack}
-                  </p>
-                )}
-                <p className="text-[13px] font-semibold text-slate-900">项目职责 / 技术难点：</p>
-                <BulletList items={project.bullets} />
-              </article>
-            ))}
-          </Section>
-        )}
+        <div className="max-h-[860px] overflow-y-auto px-7 pb-8 pt-2">
+          {education.length > 0 && (
+            <Section title="教育背景">
+              <div className="space-y-1 text-[13px] leading-6 text-slate-800">
+                {education.map((item) => (
+                  <p key={item}>{item}</p>
+                ))}
+              </div>
+            </Section>
+          )}
 
-        {campus.length > 0 && (
-          <Section title="校园 / 竞赛经历">
-            <BulletList items={campus} />
+          <Section title="个人优势">
+            <BulletList items={summary} />
           </Section>
-        )}
+
+          {skills.length > 0 && (
+            <Section title="专业技能">
+              <div className="grid grid-cols-2 gap-2 text-[12px] font-semibold leading-5 text-slate-700 md:grid-cols-4">
+                {skills.map((skill) => (
+                  <span key={skill} className="rounded-full border border-teal-100 bg-teal-50 px-3 py-1 text-center text-teal-900">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </Section>
+          )}
+
+          {projects.length > 0 && (
+            <Section title="项目经历">
+              {projects.map((project) => (
+                <article key={project.title} className="space-y-2 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h4 className="text-[14px] font-bold text-slate-950">{project.title}</h4>
+                    <span className="text-[13px] font-semibold text-slate-700">{project.role}</span>
+                  </div>
+                  {project.intro && (
+                    <p className="text-[13px] leading-6 text-slate-800">
+                      <span className="font-semibold">项目简介：</span>
+                      {project.intro}
+                    </p>
+                  )}
+                  {project.techStack && (
+                    <p className="text-[13px] leading-6 text-slate-800">
+                      <span className="font-semibold">技术栈：</span>
+                      {project.techStack}
+                    </p>
+                  )}
+                  <p className="text-[13px] font-semibold text-slate-900">项目职责 / 技术难点：</p>
+                  <BulletList items={project.bullets} />
+                </article>
+              ))}
+            </Section>
+          )}
+
+          {campus.length > 0 && (
+            <Section title="校园 / 竞赛经历">
+              <BulletList items={campus} />
+            </Section>
+          )}
+        </div>
       </div>
     </section>
   );

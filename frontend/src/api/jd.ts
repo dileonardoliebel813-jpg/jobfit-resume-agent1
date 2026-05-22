@@ -14,8 +14,10 @@ export class JDAPIError extends Error {
   }
 }
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-const expectedBackendUrl = apiBaseUrl || "http://127.0.0.1:8010";
+const apiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL ||
+  (typeof window !== "undefined" ? window.location.origin : "http://127.0.0.1:8010");
+const expectedBackendUrl = apiBaseUrl;
 
 async function readErrorMessage(response: Response): Promise<string> {
   try {
@@ -33,10 +35,6 @@ async function readErrorMessage(response: Response): Promise<string> {
 }
 
 export async function analyzeJD(rawJD: string): Promise<AnalyzeJDResponse> {
-  if (!apiBaseUrl) {
-    throw new JDAPIError("请先配置 VITE_API_BASE_URL");
-  }
-
   try {
     const response = await fetch(`${apiBaseUrl}/api/v1/jd/analyze`, {
       method: "POST",

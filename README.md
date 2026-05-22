@@ -62,7 +62,13 @@ Vite will serve the app at:
 http://localhost:5173
 ```
 
-The UI uses local mock data and focuses on the three-column workspace: JD analysis, experience match, and resume preview.
+For local frontend-only development, create `frontend/.env` and set:
+
+```env
+VITE_API_BASE_URL=http://127.0.0.1:8000
+```
+
+In the one-service cloud deployment, the frontend and backend share the same domain, so `VITE_API_BASE_URL` can be omitted.
 
 ## Mock vs Real LLM
 
@@ -172,10 +178,26 @@ POST /api/v1/resume/fact-check
 Supporting mock routes are also present:
 
 ```text
-POST /api/v1/match/analyze
+POST /api/v1/match/diagnose
 POST /api/v1/ats/review
 POST /api/v1/export/resume
 ```
+
+## Online Deployment
+
+This repository includes a root `Dockerfile` and `render.yaml` for a real one-URL deployment:
+
+- React is built during the Docker build.
+- FastAPI serves both the API and the built frontend.
+- The model API key is stored only in the cloud service environment variables.
+
+On Render, create a Blueprint from this GitHub repository and set:
+
+```env
+OPENAI_API_KEY=your_real_provider_key
+```
+
+The final Render URL opens the usable product directly. See `DEPLOYMENT.md` for the full checklist.
 
 ## Agent Pipeline
 

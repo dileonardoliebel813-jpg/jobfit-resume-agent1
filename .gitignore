@@ -13,6 +13,7 @@ dist/
 .vite/
 .codex-preview/
 output/
+.claude/
 
 .env
 .env.*
