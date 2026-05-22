@@ -1,4 +1,5 @@
 import type { JDProfile } from "../types";
+import { getApiBaseUrl } from "./base";
 
 export interface AnalyzeJDResponse {
   jd_profile: JDProfile;
@@ -14,9 +15,7 @@ export class JDAPIError extends Error {
   }
 }
 
-const apiBaseUrl =
-  import.meta.env.VITE_API_BASE_URL ||
-  (typeof window !== "undefined" ? window.location.origin : "http://127.0.0.1:8010");
+const apiBaseUrl = getApiBaseUrl();
 const expectedBackendUrl = apiBaseUrl;
 
 async function readErrorMessage(response: Response): Promise<string> {
